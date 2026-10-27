@@ -2,240 +2,91 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1f1b1c">
-<title>Green Salad · Menú</title>
-<meta name="description" content="Menú de Green Salad Healthy Food. Mira cada plato en 3D y en realidad aumentada antes de pedir.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Green Salad · Menú 3D</title>
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 <style>
-:root{
-  --ink:#1f1b1c; --ink2:#2b2627; --sage:#7ea36b; --leaf:#4d7a3e; --leaf-d:#3a5f2e;
-  --cream:#f5f2ea; --paper:#fffdf8; --line:#e6e1d4; --muted:#6c6a62; --warn:#c8553d;
-  --r:20px; --shadow:0 10px 30px -12px rgba(31,27,28,.35);
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--cream);color:var(--ink);line-height:1.45;padding-bottom:90px}
-img{display:block;max-width:100%}
-button{font:inherit;cursor:pointer;border:0;color:inherit}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-
-/* top bar */
-.top{position:sticky;top:0;z-index:20;background:rgba(31,27,28,.92);backdrop-filter:blur(10px);color:#fff}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{display:flex;flex-direction:column;line-height:1;text-decoration:none;color:#fff}
-.logo b{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--sage)}
-.logo b span{color:#d9d6cd;font-weight:600;font-size:15px;margin-left:3px}
-.logo small{font-size:8px;letter-spacing:.35em;color:#a9a69c;margin-top:3px}
-.cartbtn{position:relative;background:var(--sage);color:var(--ink);font-weight:700;padding:9px 16px;border-radius:999px;font-size:14px;display:flex;gap:8px;align-items:center}
-.cartbtn i{font-style:normal;background:var(--ink);color:#fff;border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px;padding:0 6px}
-
-/* hero */
-.hero{position:relative;color:#fff;background:var(--ink);overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 60%;opacity:.55;transform:scale(1.05);animation:slow 18s ease-in-out infinite alternate}
-@keyframes slow{to{transform:scale(1.15) translateY(-8px)}}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,27,28,.2),rgba(31,27,28,.88))}
-.hero .wrap{position:relative;z-index:2;padding-top:56px;padding-bottom:40px}
-.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage)}
-.eyebrow::before{content:"";width:22px;height:2px;background:var(--sage)}
-.hero h1{font-size:clamp(34px,8vw,64px);line-height:1.02;margin:14px 0 12px;font-weight:800;letter-spacing:-1.5px;max-width:14ch}
-.hero h1 em{font-style:normal;color:var(--sage)}
-.hero p{max-width:46ch;color:#dedbd2;margin:0 0 22px;font-size:15px}
-.cta{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;transition:transform .15s,background .2s}
-.btn:active{transform:scale(.97)}
-.btn.p{background:var(--sage);color:var(--ink)}
-.btn.g{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:28px;max-width:560px}
-.steps div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px 10px;font-size:11.5px;line-height:1.3;color:#e8e5dc}
-.steps b{display:block;color:var(--sage);font-size:18px}
-
-/* filters */
-.bar{position:sticky;top:60px;z-index:15;background:var(--cream);padding:12px 0 10px;border-bottom:1px solid var(--line)}
-.search{width:100%;padding:12px 16px 12px 42px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%236c6a62' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='M13 13l4 4'/%3E%3C/svg%3E") 14px center no-repeat;font:inherit;font-size:14px;color:var(--ink)}
-.search:focus{outline:2px solid var(--sage);border-color:transparent}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;padding:8px 16px;border-radius:999px;background:var(--paper);border:1.5px solid var(--line);font-size:13px;font-weight:600;color:var(--muted)}
-.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-/* grid */
-.sec-title{display:flex;align-items:baseline;justify-content:space-between;margin:26px 0 14px}
-.sec-title h2{margin:0;font-size:22px;letter-spacing:-.5px}
-.sec-title span{font-size:12px;color:var(--muted)}
-.grid{display:grid;gap:16px;grid-template-columns:1fr}
-@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:960px){.grid{grid-template-columns:repeat(3,1fr)}}
-.card{background:var(--paper);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;opacity:0;transform:translateY(14px);animation:in .5s forwards}
-@keyframes in{to{opacity:1;transform:none}}
-.ph{position:relative;aspect-ratio:4/3;overflow:hidden;background:#222}
-.ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.card:hover .ph img{transform:scale(1.05)}
-.ph.none{display:grid;place-items:center;color:rgba(255,255,255,.9)}
-.ph.none svg{width:64px;height:64px;opacity:.9}
-.price{position:absolute;right:12px;bottom:12px;background:var(--ink2);color:#fff;font-weight:700;font-size:15px;padding:6px 12px;border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,.3)}
-.price small{font-weight:500;font-size:10px;opacity:.7;margin-right:2px}
-.tags{position:absolute;left:12px;top:12px;display:flex;gap:6px;flex-wrap:wrap}
-.tag{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--paper);color:var(--leaf-d)}
-.tag.new{background:var(--warn);color:#fff}
-.tag.hot{background:#f1d9d2;color:var(--warn)}
-.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.body h3{margin:0;font-size:18px;letter-spacing:-.3px}
-.ing{margin:0;font-size:13px;color:var(--muted)}
-.dress{font-size:12.5px;color:var(--leaf-d);font-weight:600;margin:0}
-.acts{display:flex;gap:8px;margin-top:auto;padding-top:8px}
-.acts button{flex:1;padding:11px 10px;border-radius:12px;font-weight:700;font-size:13px}
-.b3d{background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:6px}
-.add{background:var(--sage);color:var(--ink)}
-.add:active,.b3d:active{transform:scale(.97)}
-.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
-
-/* wraps strip */
-.strip{margin-top:34px;background:var(--ink);color:#fff;border-radius:26px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
-.strip .t{padding:22px 18px;display:flex;flex-direction:column;justify-content:center;gap:8px;grid-column:1/-1}
-.strip h2{margin:0;font-size:22px;letter-spacing:-.5px}
-.strip p{margin:0;color:#cfccc2;font-size:13.5px}
-.strip img{width:100%;height:240px;object-fit:cover}
-
-/* footer */
-footer{margin-top:36px;padding:26px 0 10px;color:var(--muted);font-size:13px;text-align:center}
-footer a{color:var(--leaf-d);font-weight:600}
-
-/* dialogs */
-dialog{border:0;padding:0;background:transparent;color:inherit;max-width:100vw;max-height:100dvh;overflow:visible}
-dialog::backdrop{background:rgba(20,17,18,.72);backdrop-filter:blur(3px)}
-.sheet{background:var(--paper);width:min(560px,100vw);border-radius:26px 26px 0 0;max-height:94dvh;overflow:auto;position:fixed;left:50%;bottom:0;transform:translateX(-50%);animation:up .3s ease-out;padding-bottom:env(safe-area-inset-bottom)}
-@keyframes up{from{transform:translate(-50%,40px);opacity:0}}
-.x{position:absolute;right:12px;top:12px;z-index:5;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);font-size:20px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-model-viewer{width:100%;height:min(52dvh,420px);background:radial-gradient(circle at 50% 40%,#fff,#e9e5d8);--poster-color:transparent}
-.arbtn{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;display:flex;gap:8px;align-items:center;box-shadow:0 8px 20px rgba(0,0,0,.3)}
-.mv{position:relative}
-.demo{margin:12px 18px 0;background:#fff3d6;border:1px solid #f0d99a;color:#6a5416;border-radius:12px;padding:9px 12px;font-size:12px}
-.dinfo{padding:14px 18px 20px}
-.dinfo h3{margin:0 0 2px;font-size:22px;letter-spacing:-.4px}
-.dinfo .pr{font-weight:700;color:var(--leaf-d);margin-bottom:10px}
-.ichips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
-.ichips span{background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:500}
-.hint{font-size:12px;color:var(--muted);margin:0 0 12px}
-.big{width:100%;padding:14px;border-radius:14px;background:var(--sage);color:var(--ink);font-weight:800;font-size:15px}
-
-.cart .sheet{padding:20px 18px 18px}
-.cart h3{margin:0 0 12px;font-size:20px}
-.line{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
-.line .n{flex:1;font-weight:600;font-size:14px}
-.line .n small{display:block;color:var(--muted);font-weight:400}
-.q{display:flex;align-items:center;gap:8px}
-.q button{width:30px;height:30px;border-radius:50%;background:var(--cream);border:1px solid var(--line);font-weight:700}
-.tot{display:flex;justify-content:space-between;font-weight:800;font-size:18px;margin:14px 0 4px}
-.note{font-size:11.5px;color:var(--muted);margin:0 0 12px}
-.field{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);font:inherit;font-size:14px;margin-bottom:10px;background:#fff}
-.wa{background:#25d366;color:#0b3d1e}
-.ghost{background:none;color:var(--muted);text-decoration:underline;font-size:13px;margin-top:8px;width:100%}
-
-.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:18;background:var(--ink);color:#fff;border-radius:999px;padding:14px 22px;font-weight:700;font-size:14px;box-shadow:0 14px 30px -8px rgba(0,0,0,.5);display:none;gap:12px;align-items:center;width:min(92vw,440px);justify-content:space-between}
-.fab.show{display:flex}
-.fab b{color:var(--sage)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f5f2ea;color:#1f1b1c}
+header{background:#1f1b1c;color:#7ea36b;padding:16px;font-size:22px;font-weight:800;position:sticky;top:0;z-index:5}
+header small{display:block;color:#a9a69c;font-size:10px;letter-spacing:.3em;font-weight:400}
+.sub{padding:14px 16px 4px;color:#6c6a62;font-size:14px}
+.list{padding:8px 16px 40px;display:grid;gap:12px;max-width:560px;margin:auto}
+.card{background:#fffdf8;border-radius:16px;padding:14px;box-shadow:0 6px 18px -10px rgba(0,0,0,.4)}
+.card h3{margin:0;font-size:17px;display:flex;justify-content:space-between;gap:8px}
+.card h3 span{color:#3a5f2e}
+.card p{margin:6px 0 10px;font-size:13px;color:#6c6a62}
+button{font:inherit;border:0;cursor:pointer;border-radius:12px;padding:11px 14px;font-weight:700}
+.go{background:#1f1b1c;color:#fff;width:100%}
+dialog{border:0;padding:0;border-radius:20px;width:min(560px,94vw);overflow:hidden}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+model-viewer{width:100%;height:55vh;background:radial-gradient(#fff,#e9e5d8)}
+.ar{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:#1f1b1c;color:#fff;border-radius:999px}
+.info{padding:12px 16px 16px}
+.info h3{margin:0}
+.x{position:absolute;right:10px;top:10px;z-index:3;border-radius:50%;width:38px;height:38px;padding:0;background:#fff}
+.note{background:#fff3d6;color:#6a5416;font-size:12px;padding:8px 12px;margin:0}
 </style>
 </head>
 <body>
+<header>Green Salad<small>HEALTHY FOOD · MENÚ 3D</small></header>
+<div class="sub">Toca un plato y velo en 3D o en tu mesa.</div>
+<div class="list" id="list"></div>
 
-<header class="top">
-  <div class="wrap">
-    <a class="logo" href="#"><b>Green<span>Salad</span></b><small>HEALTHY FOOD</small></a>
-    <button class="cartbtn" id="openCart" aria-label="Ver pedido">Mi pedido <i id="cnt">0</i></button>
+<dialog id="dlg">
+  <button class="x" onclick="dlg.close()">×</button>
+  <div style="position:relative">
+    <model-viewer id="mv" camera-controls auto-rotate shadow-intensity="1" ar ar-modes="webxr scene-viewer quick-look" ar-scale="auto" alt="Plato en 3D">
+      <button slot="ar-button" class="ar">📱 Ver en mi mesa (AR)</button>
+    </model-viewer>
   </div>
-</header>
-
-<section class="hero">
-  <div class="hero-bg" id="heroBg"></div>
-  <div class="wrap">
-    <span class="eyebrow">Menú digital</span>
-    <h1>Míralo antes de <em>pedirlo</em></h1>
-    <p>Ensaladas frescas hechas al momento. Toca cualquier plato y velo en 3D, o ponlo sobre tu mesa con la cámara del celular.</p>
-    <div class="cta">
-      <a class="btn p" href="#menu">Ver el menú</a>
-      <button class="btn g" id="heroDemo">✨ Probar el 3D</button>
-    </div>
-    <div class="steps">
-      <div><b>1</b>Elige tu ensalada</div>
-      <div><b>2</b>Velo en 3D o en AR</div>
-      <div><b>3</b>Pide por WhatsApp</div>
-    </div>
-  </div>
-</section>
-
-<div class="bar" id="menu">
-  <div class="wrap">
-    <input class="search" id="q" type="search" placeholder="Buscar: pollo, aguacate, bacon…" autocomplete="off">
-    <div class="chips" id="chips"></div>
-  </div>
-</div>
-
-<main class="wrap">
-  <div class="sec-title"><h2 id="secT">Todas las ensaladas</h2><span id="secC"></span></div>
-  <div class="grid" id="grid"></div>
-
-  <section class="strip">
-    <div class="t">
-      <span class="eyebrow">También en wrap</span>
-      <h2>Tu ensalada, en la mano</h2>
-      <p>Wraps verdes rellenos con los mismos ingredientes frescos. Pregunta por tu favorito en caja.</p>
-    </div>
-    <img id="w1" alt="Wrap de ensalada" loading="lazy">
-    <img id="w2" alt="Wrap de camarones en bowl" loading="lazy">
-  </section>
-
-  <footer>
-    <p><b>Green Salad Healthy Food</b><br>Venezuela, Bella Vista y La Jacobo<br>
-    <a href="https://instagram.com/greensaladsd" target="_blank" rel="noopener">@greensaladsd</a> · <a href="tel:+18096388446">(809) 638-8446</a></p>
-    <p>Precios en RD$. Impuestos no incluidos.</p>
-  </footer>
-</main>
-
-<button class="fab" id="fab"><span><b id="fabN">0</b> en tu pedido</span><span id="fabT">RD$0</span></button>
-
-<!-- 3D -->
-<dialog id="dlg3d">
-  <div class="sheet">
-    <button class="x" data-close aria-label="Cerrar">×</button>
-    <div class="mv">
-      <model-viewer id="mv" camera-controls auto-rotate touch-action="pan-y" shadow-intensity="1.1" shadow-softness="1" exposure="1.1"
-        ar ar-modes="webxr scene-viewer quick-look" ar-scale="auto" interaction-prompt="auto" alt="Plato en 3D">
-        <button slot="ar-button" class="arbtn">📱 Ver en mi mesa (AR)</button>
-      </model-viewer>
-    </div>
-    <div class="demo" id="demoNote">Modelo de prueba: así se verá cada plato cuando carguemos los modelos 3D reales.</div>
-    <div class="dinfo">
-      <h3 id="d3t"></h3>
-      <div class="pr" id="d3p"></div>
-      <div class="ichips" id="d3i"></div>
-      <p class="hint">Gira con el dedo · pellizca para acercar · toca “Ver en mi mesa” para ponerlo en tu mesa.</p>
-      <button class="big" id="d3add">Agregar al pedido</button>
-    </div>
-  </div>
-</dialog>
-
-<!-- Cart -->
-<dialog id="dlgCart" class="cart">
-  <div class="sheet">
-    <button class="x" data-close aria-label="Cerrar">×</button>
-    <h3>Tu pedido</h3>
-    <div id="lines"></div>
-    <div class="tot"><span>Total</span><span id="total">RD$0</span></div>
-    <p class="note">Impuestos no incluidos. El pedido se envía por WhatsApp para confirmarlo.</p>
-    <input class="field" id="who" placeholder="Tu nombre o número de mesa">
-    <button class="big wa" id="send">Enviar pedido por WhatsApp</button>
-    <button class="ghost" id="clear">Vaciar pedido</button>
-  </div>
+  <p class="note">Modelo de prueba. Luego se cambia por el plato real.</p>
+  <div class="info"><h3 id="t"></h3><p id="i"></p></div>
 </dialog>
 
 <script>
-/* ===== CONFIGURACIÓN (lo único que normalmente cambias) ===== */
-const WHATSAPP = "18096388446";  // número del negocio, con 18 + código de área, sin símbolos. CONFIRMAR.
-const DEMO_MODEL = "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/Avocado/glTF-Binary/Avocado.glb";
-const FALLBACK_MODEL = "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
-
-const IMG = {"wrap1": "data:image/jpeg;base64,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qLZZVWABC/t/w/7XGfodfF7UvDvxjUxwk1iY53yfL+n8I7c9tvNz/ZfDPjfR8f6DTh9zx/a+X6vB8r9F8g8Xh+j09HD6/u+R9Lh18ee3o82vBrz/ACO+/t+zn2c/zv1OOd8/lez8x9/0vB6frpn5fi9fyemddMzq64lkx2462xy9Xk3cDrQqgFJQA4rMIoAtli2alUgQEp+z/GfuOefVvPfM1x3Tnjci8nixrPxPveGT5H6T5/rTt876XDjfT8j7ngxfrefzfez0+N4vs/J6c59Lw/R08XD6vwpPZ9L8t9Llrn6fDjb7XX8z925+X7vreOb/ADn2fD9Lpnj8XXj6TpyOoctO0mE6XMPR4/X5beQ70WhSUBCoOc1OaKqVSVYtlzagE0Es1/Qv57+74zr04znOuddM3fD08+iY348zzfE+j8rD6/s8P6Tz9XLHzvPr1/P93o78/D9P5vnrp7XTnrfxevx/Zy+n8z1+A+lv6P1tPwHp/UfLy6fQ8HHy77/J6/O6s64cfTn1ebpzrrnfeXxenn7JOPDrprz3WtZxw9Xm04D01ZQCgS5AMjnYoFRSVYLCwTQizf7X8V+08q+zj24zrZ6ul8k9HA8nk7fD5TH0fJ+mmuPTPi8fT6vg8/o6Y9TXXPT5/wBLzeRnvPn89T5Hv9XXvj5/3n2O849ufm1c+BvyXw/PfN3Ot48fQ6V1ON60s78cXz+7zes3x5Yl318Pbee3j6+bbmPRVloABECEK5alUlASqirCxEsErr+8/E/0PzozwxPR18XY68McsV5fN4ub632fy/3eG+Po8Xl1n1+P6vaufo+D6eWvX5OvLN8H130/Tjx59PovTOOXO4xnPHzHyL5ery9O/n9DHH19NPH26XLGt3LzejlvTz3Gt54c/Xy253Wa159Y2tjpagqCpCokINjnoASwKEsI0RCyWvZ/QP5x+/8AJcctY8+fZ368e753z/ocPJfkevr6dPd015Od83r671M/I+rjnfzPt+9nvr5N+15uep9b4PvzPd4eHyq+p8Tj8/rn6uMdV546eXT1eHp6dXy+ick7ZwTc59TPL3Zl4OnC5556OkeX3/Nt5I9LTNqoWoixEsRKg6jnoKQsQ1EKRBLKA1/Qv5//AEbyXlevXGd+Lr4sWcvXy82vF7OO9zvy9XixPoc/N9LpeLV5XLVXp8/0+YvHXgxengx5fScpPTj28vN1h0+jOTwvpcJfnejy3tPRvy982d1wuuHszvEx6MvlZ7Y9HKeD6Py+tzY7lgqFqCxEshKg9E/Zefwej8rP07T8w/Xak/HT9jxs/KT9LOk/NP0uT82/RZr8++/ivi/0T8h+o5Z93Pjz54vn748uuE1dTz9J9Dq9+/N00l+bvy9fbjj11zvk6c8vP4/ocLfl+T6vzPXPL06e7cvX178l+X6vodjHk7eHnd+H6PPb5mfX27Pl79+zwe+MWd7rnevg6/N1J5Pa9O
+const MODEL = "https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/Avocado/glTF-Binary/Avocado.glb";
+const BACKUP = "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
+const D = [
+ ["Mamita Honey",450,"Pollo, aguacate, cheddar, bacon, tomate cherry, cebolla, maíz, croutons"],
+ ["Chili Salad",449,"Chili, maíz, cheddar, plátano maduro, aguacate, tortilla chips, pico de gallo"],
+ ["La Bariátrica Salad",399,"Pechuga de pollo, bacon, aguacate, pita chips"],
+ ["Salad 100% Protein",449,"Pechuga de pollo, 2 huevos, bacon, cheddar"],
+ ["Chicken BBQ",299,"Lechuga mix, pollo, aguacate, mozzarella"],
+ ["Chipotle Chicken Salad",299,"Pollo, tomate rostizado, maíz"],
+ ["Chicken Caesar Salad",349,"Lechuga mix, pollo, parmesano, tomate cherry, croutons, huevo"],
+ ["Mix Salad",299,"Lechuga mix, pollo, cheddar, tortilla chip, bacon"],
+ ["Ryan Salad",449,"Aguacate, pollo, plátano maduro, huevo, cheddar, maíz, bacon"],
+ ["Goat Salad",449,"Tomate rostizado, queso de cabra, pollo, cranberry, croutons"],
+ ["Pork Belly Salad",449,"Chicharrón, cebolla, pico de gallo, guacamole, plátano maduro"],
+ ["Keto Salad",449,"Steak Angus, bacon, aguacate, huevo, pico de gallo"],
+ ["Bacon Salad",399,"Bacon, tomate rostizado, cebolla, cheddar, tortilla chips"],
+ ["Steak Angus",599,"Lechuga mix, Angus steak, tomate rostizado, rúcula, cheddar, habichuela negra, bacon"],
+ ["Steak Salad",549,"Lechuga mix, aguacate, Angus steak, croutons, tomate rostizado, aceitunas, cebolla caramelizada"],
+ ["Tuna Salad",399,"Maíz, aguacate, pico de gallo, tuna en agua"],
+ ["Shrimp Salad",499,"Maíz, pico de gallo, aguacate, camarones"],
+ ["Salmon Honey Mustard",590,"Salmón desmenuzado, aguacate, plátano maduro, nueces, tortilla chips"],
+ ["Healthy Salmon Salad",699,"Rúcula, salmón sellado, aceitunas negras, tomate rostizado, parmesan crisp"],
+ ["Mozzarella Salad",249,"Rúcula, lechuga mix, tomate cherry, mozzarella"],
+ ["Vegan Gluten Free",399,"Tofu, maíz, tomate rostizado, cebolla"]
+];
+const dlg = document.getElementById("dlg"), mv = document.getElementById("mv");
+mv.addEventListener("error", () => mv.setAttribute("src", BACKUP));
+D.forEach(([n, p, ing], k) => {
+  const c = document.createElement("div");
+  c.className = "card";
+  c.innerHTML = `<h3>${n}<span>RD$${p}</span></h3><p>${ing}</p><button class="go" data-k="${k}">◎ Ver en 3D</button>`;
+  document.getElementById("list").appendChild(c);
+});
+document.getElementById("list").onclick = e => {
+  const k = e.target.dataset.k;
+  if (k === undefined) return;
+  const d = D[k];
+  mv.setAttribute("src", MODEL);
+  document.getElementById("t").textContent = d[0] + " · RD$" + d[1];
+  document.getElementById("i").textContent = d[2];
+  dlg.showModal();
+};
+</script>
+</body>
+</html>
